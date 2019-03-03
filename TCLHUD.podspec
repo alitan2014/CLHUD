@@ -15,9 +15,9 @@ Pod::Spec.new do |spec|
   #  summary should be tweet-length, and the description more in depth.
   #
 
-  spec.name         = "CLHUD"
+  spec.name         = "TCLHUD"
   spec.version      = "0.0.1"
-  spec.summary      = "CLHUD"
+  spec.summary      = "TCLHUD"
 
   # This description is used to generate tags and improve search results.
   #   * Think: What does it do? Why did you write it? What is the focus?
@@ -25,7 +25,7 @@ Pod::Spec.new do |spec|
   #   * Write the description between the DESC delimiters below.
   #   * Finally, don't worry about the indent, CocoaPods strips it!
   spec.description  = <<-DESC
-	CLHUD测试
+	TCLHUD测试
                    DESC
 
   spec.homepage     = "https://github.com/alitan2014/CLHUD"
@@ -92,7 +92,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.source_files  = "CLHUD", "CLHUD/HUD/**/*.{h,m}"
-  spec.exclude_files = "CLHUD/Exclude"
+  #spec.exclude_files = "CLHUD/Exclude"
 
   # spec.public_header_files = "Classes/**/*.h"
 
