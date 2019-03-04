@@ -20,7 +20,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     _progress = 0;
-    _loadingHud = [[CLLoadingHUD alloc]initWithFrame:self.view.bounds];
+    _loadingHud = [[CLLoadingHUD alloc]initWithFrame:CGRectMake(100, 50, 100, 200)];
+    [_loadingHud setProgressColor:UIColor.yellowColor];
+    [_loadingHud setProgressBackgroundColor:UIColor.grayColor];
+    [_loadingHud setProgressTotalLength:200];
     _timer = [NSTimer scheduledTimerWithTimeInterval:0.35 target:self selector:@selector(update) userInfo:nil repeats:YES];
     [_timer fire];
     [self.view addSubview:_loadingHud];

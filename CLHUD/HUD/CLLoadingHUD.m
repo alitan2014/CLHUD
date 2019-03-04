@@ -21,7 +21,7 @@
 @property (nonatomic ,strong) CAShapeLayer *progressLayer;
 
 /**
- 提示语言
+ 提示语
  */
 @property (nonatomic ,strong) UILabel *notTip;
 
@@ -36,6 +36,22 @@
  */
 @property (nonatomic ,strong) UIView *contetView;
 
+/**
+ 总长度
+ */
+@property (nonatomic ,assign) CGFloat totalLength;
+
+
+/**
+ 百分比进度
+ */
+@property (nonatomic ,strong) UILabel *progressTip;
+
+
+/**
+ 设置圆形宽度
+ */
+@property (nonatomic ,assign) CGFloat lineWidth;
 @end
 
 @implementation CLLoadingHUD
@@ -54,69 +70,63 @@
     }
     return self;
 }
--(void)initView{
-    self.width = 100;
-    self.backgroundLayer = [self createShapeLayer:UIColor.grayColor withLineWidth:5];
-    self.progressLayer = [self createShapeLayer:UIColor.orangeColor withLineWidth:5];
-    self.contetView = [[UIView alloc ]initWithFrame:CGRectMake(0, 0, 100, 100)];
-//    self.contetView.backgroundColor = UIColor.redColor;
-    self.contetView.center = self.center;
-    [self addSubview:self.contetView];
-//    self.contetView.layer.cornerRadius = 50;
-//    self.contetView.clipsToBounds = YES;
-    [self.contetView.layer addSublayer:_backgroundLayer];
-    _progressLayer.strokeEnd = 0;
-    [self.contetView.layer addSublayer:_progressLayer];
+- (void)setProgressColor:(UIColor *)color{
+    if (_progressLayer!=nil) {
+        _progressLayer.strokeColor = color.CGColor;
+    }
 }
-- (void)drawRect:(CGRect)rect{
-//    [super drawRect:rect];
+- (void)setProgressBackgroundColor:(UIColor *)color{
+    if (_backgroundLayer!=nil) {
+        _backgroundLayer.strokeColor = color.CGColor;
+    }
+}
+- (void)setProgressTotalLength:(CGFloat)length{
+        _totalLength  = length;
     
-    // 创建一个track shape layer
-    _backgroundLayer = [CAShapeLayer layer];
-    _backgroundLayer.frame = self.contetView.bounds;
-    _backgroundLayer.fillColor = [[UIColor clearColor] CGColor];
-    _backgroundLayer.strokeColor = [[UIColor cyanColor]  CGColor];
+}
+-(void)initView{
+    self.lineWidth = 5;
+//    比较宽高，设置width为短的
+    if (CGRectGetWidth(self.frame)>CGRectGetHeight(self.frame)) {
+        self.width = CGRectGetHeight(self.frame);
+    }else{
+        self.width = CGRectGetWidth(self.frame);
+    }
+    //创建圆形Layer
+    self.backgroundLayer = [self createShapeLayer:UIColor.grayColor withLineWidth:_lineWidth];
+    self.progressLayer = [self createShapeLayer:UIColor.orangeColor withLineWidth:_lineWidth];
+    
+    //创建layer承载view
+    self.contetView = [[UIView alloc ]initWithFrame:CGRectMake((CGRectGetWidth(self.frame)-self.width+self.lineWidth)/2, (CGRectGetHeight(self.frame)-self.width-self.lineWidth)/2, self.width-_lineWidth, self.width-_lineWidth)];
+    //逆时针旋转90度
+    self.contetView.transform = CGAffineTransformMakeRotation(-M_PI_2);
+    //设置中心点
+    [self addSubview:self.contetView];
     [self.contetView.layer addSublayer:_backgroundLayer];
-    
-    // 指定path的渲染颜色
-    _backgroundLayer.opacity = 1; // 背景透明度
-    _backgroundLayer.lineCap = kCALineCapRound;// 指定线的边缘是圆的
-    _backgroundLayer.lineWidth = 5; // 线的宽度
-    
-    
-    // 上面说明过了用来构建圆形
-    
-    /*
-     center：圆心的坐标
-     radius：半径
-     startAngle：起始的弧度
-     endAngle：圆弧结束的弧度
-     clockwise：YES为顺时针，No为逆时针
-     方法里面主要是理解startAngle与endAngle
-     */
-    
-    UIBezierPath *path = [UIBezierPath bezierPathWithArcCenter:CGPointMake(self.contetView.frame.size.width/2, self.contetView.frame.size.height/2)
-                                                        radius:self.contetView.frame.size.width/2
-                                                    startAngle:degreesToRadians(270)
-                                                      endAngle:degreesToRadians(-90) clockwise:NO];
-    
-    _backgroundLayer.path = [path CGPath]; // 把path传递給layer，然后layer会处理相应的渲染，整个逻辑和CoreGraph是一致的。
-    
-    
-    
-    
-    _progressLayer = [CAShapeLayer layer];
-    _progressLayer.frame = self.contetView.bounds;
-    _progressLayer.fillColor = [[UIColor clearColor] CGColor];
-    _progressLayer.strokeColor = [[UIColor redColor] CGColor];
-    _progressLayer.lineCap = kCALineCapRound;
-    _progressLayer.lineWidth = 5;
-    _progressLayer.path = [path CGPath];
-    _progressLayer.opacity = 1;
     _progressLayer.strokeEnd = 0;
-    
     [self.contetView.layer addSublayer:_progressLayer];
-
+    
+    
+    
+    
+    //创建提示view
+    _notTip = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMinX(_contetView.frame), CGRectGetMaxY(_contetView.frame)+10, self.width, 20)];
+    _notTip.text = @"上传中";
+    _notTip.textAlignment = NSTextAlignmentCenter;
+    _notTip.font = [UIFont systemFontOfSize:15];
+    [self addSubview:_notTip];
+    
+    
+    
+    //创建百分比进度条
+    
+    _progressTip = [[[UILabel alloc]init]initWithFrame:CGRectMake(0, 0, self.width-20, 20)];
+    _progressTip.frame = _contetView.frame;
+    _progressTip.font = [UIFont systemFontOfSize:15];
+    _progressTip.textAlignment = NSTextAlignmentCenter;
+    _progressTip.text = @"%0";
+    [self addSubview:_progressTip];
+    
     
     
 }
@@ -124,12 +134,12 @@
 -(CAShapeLayer *)createShapeLayer:(UIColor *)color withLineWidth:(CGFloat)lineWidth{
     CAShapeLayer *layer = [[CAShapeLayer alloc]init];
     
-//    CGRect rect = CGRectMake(0, 0, 100, 100);
+    CGRect rect = CGRectMake(0, 0, self.width-lineWidth, self.width-lineWidth);
     
 
 //    设置Path
-//    UIBezierPath *path = [UIBezierPath bezierPathWithRect:rect];
-//    layer.path = path.CGPath;
+    UIBezierPath *path = [UIBezierPath bezierPathWithOvalInRect:rect];
+    layer.path = path.CGPath;
     layer.frame = self.contetView.bounds;
     layer.strokeColor = color.CGColor;
     layer.fillColor = UIColor.clearColor.CGColor;
@@ -143,7 +153,10 @@
     [CATransaction begin];
     [CATransaction setAnimationTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear]];
     [CATransaction setAnimationDuration:1];
-    self.progressLayer.strokeEnd = progress;
+    self.progressLayer.strokeEnd = progress/_totalLength;
+    
+    _progressTip.text = [NSString stringWithFormat:@"%%%.0f",(progress/_totalLength)*100];
+//    [_contetView bringSubviewToFront:_progressTip];
    
     [CATransaction commit];
 }
