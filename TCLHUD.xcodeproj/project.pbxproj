@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DD0F8C04222E067000BBB901 /* CLProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = DD0F8C03222E067000BBB901 /* CLProgressHUD.m */; };
 		DDBF1517222BD94700633DAF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DDBF1516222BD94700633DAF /* AppDelegate.m */; };
 		DDBF151A222BD94700633DAF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDBF1519222BD94700633DAF /* ViewController.m */; };
 		DDBF151D222BD94700633DAF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DDBF151B222BD94700633DAF /* Main.storyboard */; };
@@ -36,6 +37,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DD0F8C02222E067000BBB901 /* CLProgressHUD.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CLProgressHUD.h; sourceTree = "<group>"; };
+		DD0F8C03222E067000BBB901 /* CLProgressHUD.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CLProgressHUD.m; sourceTree = "<group>"; };
 		DDBF1512222BD94700633DAF /* CLHUD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CLHUD.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDBF1515222BD94700633DAF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		DDBF1516222BD94700633DAF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -141,6 +144,8 @@
 			children = (
 				DDBF1548222BDF1700633DAF /* CLLoadingHUD.h */,
 				DDBF1549222BDF1700633DAF /* CLLoadingHUD.m */,
+				DD0F8C02222E067000BBB901 /* CLProgressHUD.h */,
+				DD0F8C03222E067000BBB901 /* CLProgressHUD.m */,
 			);
 			path = HUD;
 			sourceTree = "<group>";
@@ -223,7 +228,7 @@
 					};
 				};
 			};
-			buildConfigurationList = DDBF150D222BD94700633DAF /* Build configuration list for PBXProject "CLHUD" */;
+			buildConfigurationList = DDBF150D222BD94700633DAF /* Build configuration list for PBXProject "TCLHUD" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -276,6 +281,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DDBF151A222BD94700633DAF /* ViewController.m in Sources */,
+				DD0F8C04222E067000BBB901 /* CLProgressHUD.m in Sources */,
 				DDBF1525222BD94900633DAF /* main.m in Sources */,
 				DDBF1517222BD94700633DAF /* AppDelegate.m in Sources */,
 				DDBF154A222BDF1700633DAF /* CLLoadingHUD.m in Sources */,
@@ -556,7 +562,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		DDBF150D222BD94700633DAF /* Build configuration list for PBXProject "CLHUD" */ = {
+		DDBF150D222BD94700633DAF /* Build configuration list for PBXProject "TCLHUD" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DDBF153C222BD94900633DAF /* Debug */,

@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "CLLoadingHUD.h"
+#import "CLProgressHUD.h"
 @interface ViewController ()
 @property (nonatomic ,strong) CLLoadingHUD *loadingHud;
 @property (nonatomic ,assign) CGFloat progress;
@@ -19,19 +20,27 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    _progress = 0;
-    _loadingHud = [[CLLoadingHUD alloc]initWithFrame:CGRectMake(100, 50, 100, 200)];
-    [_loadingHud setProgressColor:UIColor.yellowColor];
-    [_loadingHud setProgressBackgroundColor:UIColor.grayColor];
-    [_loadingHud setProgressTotalLength:200];
-    _timer = [NSTimer scheduledTimerWithTimeInterval:0.35 target:self selector:@selector(update) userInfo:nil repeats:YES];
-    [_timer fire];
-    [self.view addSubview:_loadingHud];
+//    _progress = 0;
+//    _loadingHud = [[CLLoadingHUD alloc]initWithFrame:CGRectMake(100, 50, 100, 200)];
+//    [_loadingHud setProgressColor:UIColor.yellowColor];
+//    [_loadingHud setProgressBackgroundColor:UIColor.grayColor];
+//    [_loadingHud setProgressTotalLength:200];
+//    _timer = [NSTimer scheduledTimerWithTimeInterval:0.35 target:self selector:@selector(update) userInfo:nil repeats:YES];
+//    [_timer fire];
+//    [self.view addSubview:_loadingHud];
+   
     
 }
-
+-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    NSLog(@"----");
+    [CLProgressHUD dismiss];
+}
 -(void)update{
     _progress ++;
     [_loadingHud updateProgeressWithProgress:_progress];
+}
+- (IBAction)show:(id)sender {
+     [CLProgressHUD show];
+    [CLProgressHUD showTipMessage:@"12345"];
 }
 @end
